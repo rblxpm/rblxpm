@@ -1,5 +1,5 @@
 # RBLXPM
-RBLXPM, Roblox Package Manager, is a new package manager for the Roblox platform. It has two major builds: cli and roblox. The CLI is meant for use with tools like Rojo, whereas the Roblox tool is used for importing modules in your code, in studio.
+RBLXPM, Roblox Package Manager, is a new package manager for the Roblox platform. It has two major builds: cli and roblox. The CLI is more powerful and is meant for use with tools like Rojo. The Roblox tool is used in Lua code in studio to import modules.
 # Release
 Roblox Package Manager is entirely experimental, and, as such, it does not have a set release date, release map, or any guarantee of completion.
 # Contribution
