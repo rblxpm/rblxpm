@@ -1,0 +1,16 @@
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\bin\Debug\net5.0\rblxpm.exe
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\bin\Debug\net5.0\rblxpm.deps.json
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\bin\Debug\net5.0\rblxpm.runtimeconfig.json
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\bin\Debug\net5.0\rblxpm.runtimeconfig.dev.json
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\bin\Debug\net5.0\rblxpm.dll
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\bin\Debug\net5.0\ref\rblxpm.dll
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\bin\Debug\net5.0\rblxpm.pdb
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.csproj.AssemblyReference.cache
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.GeneratedMSBuildEditorConfig.editorconfig
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.AssemblyInfoInputs.cache
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.AssemblyInfo.cs
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.csproj.CoreCompileInputs.cache
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.dll
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\ref\rblxpm.dll
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.pdb
+E:\Dev\rblxpm\rblxpm-cli\rblxpm\obj\Debug\net5.0\rblxpm.genruntimeconfig.cache
