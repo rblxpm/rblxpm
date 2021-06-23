@@ -4,7 +4,7 @@ local cacheFolder = script.cache
 local importsCache = script.importsCache
 local packageIndexUrl = "https://raw.githubusercontent.com/rblxpm/rblxpm-packages/main/packageIndex.json"
 local HttpService = game:GetService("HttpService")
-local packageIndex = script.packageIndexCache
+local packageIndex = script.packageIndex
 
 function rblxpm:init()
     
@@ -26,8 +26,9 @@ function rblxpm:updatePackageIndex()
     end
 end
 
-function rblxpm:import(moduleName)
-   
+function rblxpm:import(ref)
+   if typeof(ref) == 'string' then
+   elseif typeof(ref) == ''
 end
 
 return rblxpm
