@@ -31,7 +31,10 @@ local InsertService = game:GetService("InsertService")
     by ID
     by Instance (import a ModuleScript from ServerStorage)
     by Reference (a name used to identify the module)
+    
+    Getting Started
 
+    Getting started with RBLXPM is quite easy, all you need is one module! This module must be imported into a place like ReplicatedStorage or ServerStorage. From there, you can require the module, and start importing modules!
 
 ]]
 
