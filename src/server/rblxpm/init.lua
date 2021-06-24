@@ -51,9 +51,9 @@ local packageIndexUrl = "https://raw.githubusercontent.com/rblxpm/rblxpm-package
 --Empty variables
 
 local rblxpmFolder
-local libsFolder
-local packageIndex
-local packageCache
+local cacheFolder
+local packageIndex = script.packageIndex
+local packageCache = script.importsCache
 
 --Init
 
@@ -62,9 +62,9 @@ if not ServerStorage:FindFirstChild("RBLXPM") then
     rblxpmFolder.Name = "RBLXPM"
     rblxpmFolder.Parent = ServerStorage
 
-    libsFolder = Instance.new("Folder")
-    libsFolder.Name = "Libs"
-    libsFolder.Parent = rblxpmFolder
+    cacheFolder = Instance.new("Folder")
+    cacheFolder.Name = "Libs"
+    cacheFolder.Parent = rblxpmFolder
 
 else
     pcall(function()
@@ -72,23 +72,23 @@ else
     end)
     if rblxpmFolder then
         pcall(function()
-            libsFolder = rblxpmFolder:FindFirstChild("Libs")
+            cacheFolder = rblxpmFolder:FindFirstChild("Libs")
         end)
-        if libsFolder then
+        if cacheFolder then
 
         else
-            libsFolder = Instance.new("Folder")
-            libsFolder.Name = "Libs"
-            libsFolder.Parent = rblxpmFolder
+            cacheFolder = Instance.new("Folder")
+            cacheFolder.Name = "Libs"
+            cacheFolder.Parent = rblxpmFolder
         end
     else
         rblxpmFolder = Instance.new("Folder")
         rblxpmFolder.Name = "RBLXPM"
         rblxpmFolder.Parent = ServerStorage
 
-        libsFolder = Instance.new("Folder")
-        libsFolder.Name = "Libs"
-        libsFolder.Parent = rblxpmFolder
+        cacheFolder = Instance.new("Folder")
+        cacheFolder.Name = "Libs"
+        cacheFolder.Parent = rblxpmFolder
     end
 end
 
@@ -115,6 +115,9 @@ function rblxpm:import(ref)
         --RBLXPM roblox id import
    elseif typeof(ref) == 'Instance'then
         --RBLXPM instance import
+   else
+       warn("[RBLXPM] The passed reference couldn't be imported.") 
+       return nil 
    end 
 end
 
