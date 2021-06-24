@@ -92,40 +92,6 @@ else
     end
 end
 
---End init
-
-
---example table for packages [testing only]
-
-local template = 
-{
-    ["Id"]={
-        ["Reference"]="MyModule",
-        ["RobloxId"] = 0,
-        ["Installer"] = {
-            ["MainModule"] = {
-                ["Name"]="MainModule",
-                ["Source"] = "https://cdn.coolwebsite.com/MainModule.lua",
-                ["Children"] = {
-                    ["ThisLibrary"] = {
-                        ["Name"] = "ThisLibrary",
-                        ["Type"] = "ModuleScript",
-                        ["Source"] = "https://cdn.coolwebsite.com/ThisLibrary.lua",
-                        ["Children"] = {}
-                    },
-                    ["ThisFolder"] = {
-                        ["Name"] = "ThisFolder",
-                        ["Type"] = "Folder",
-                        ["Children"] = {}
-                    },
-                }
-            }
-        }
-    }
-}
-
---end
-
 function rblxpm:updatePackageIndex()
     local data
     local response
@@ -147,40 +113,8 @@ function rblxpm:import(ref)
         --RBLXPM name import
    elseif typeof(ref) == 'number' then
         --RBLXPM roblox id import
-        local asset
-        pcall(function()
-            asset = InsertService:LoadAsset(ref)
-        end)
-        if asset then
-            local mainModule
-            pcall(function()
-                --Main module doesnt have to be called mainmodule, but it has to exist.
-                mainModule = asset:FindFirstChildWhichIsA("ModuleScript")
-            end)
-            if mainModule then
-                return require(mainModule)
-            else
-                warn("[RBXPM] No main module found.")
-            end 
-        else
-            warn("[RBXPM] Error importing module: asset does not exist.")
-        end
-       
    elseif typeof(ref) == 'Instance'then
-        if ref:IsA("ModuleScript") then
-            return require(ref)
-        else
-            local mainModule
-            pcall(function()
-                mainModule = ref:FindFirstChildWhichIsA("ModuleScript")
-            end)
-            if mainModule then
-                return require(mainModule)
-            else
-                warn("[RBLXPM] No main module found.")
-            end
-                
-        end
+        --RBLXPM instance import
    end 
 end
 
