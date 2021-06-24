@@ -1,9 +1,3 @@
-local rblxpm = {}
-
-local packageIndexUrl = "https://raw.githubusercontent.com/rblxpm/rblxpm-packages/main/packageIndex.json"
-local HttpService = game:GetService("HttpService")
-local InsertService = game:GetService("InsertService")
-
 --[[
     Roblox Package Manager
     by the rblxpm team
@@ -18,7 +12,11 @@ local InsertService = game:GetService("InsertService")
     
     RBLXPM uses the require function to return modules, but the process in the middle is considerably different. RBLXPM works by using cached modules, which can either be loaded in a central script, or just cached as code is run.
     After a module is cached, using the import function will import the cached module.
-
+    
+    Benefits
+    
+    The main benefit of using RBLXPM is cached modules. This allows for a reliable connection between scripts. With RBLXPM, you can easily share information between scripts using modules, on runtime.
+    
     In order for this to work, the RBLXPM folder must not be modified
 
     For reasons of security, you are more than welcome to investigate it, but it isn't recommended to modify it, as this would most likely break a section of RBLXPM.
@@ -37,6 +35,65 @@ local InsertService = game:GetService("InsertService")
     Getting started with RBLXPM is quite easy, all you need is one module! This module must be imported into a place like ReplicatedStorage or ServerStorage. From there, you can require the module, and start importing modules!
 
 ]]
+
+local rblxpm = {}
+
+--Services
+
+local HttpService = game:GetService("HttpService")
+local InsertService = game:GetService("InsertService")
+local ServerStorage = game:GetService("ServerStorage")
+
+--Variables
+
+local packageIndexUrl = "https://raw.githubusercontent.com/rblxpm/rblxpm-packages/main/packageIndex.json"
+
+--Empty variables
+
+local rblxpmFolder
+local libsFolder
+local packageIndex
+local packageCache
+
+--Init
+
+if not ServerStorage:FindFirstChild("RBLXPM") then
+    rblxpmFolder = Instance.new("Folder")
+    rblxpmFolder.Name = "RBLXPM"
+    rblxpmFolder.Parent = ServerStorage
+
+    libsFolder = Instance.new("Folder")
+    libsFolder.Name = "Libs"
+    libsFolder.Parent = rblxpmFolder
+
+else
+    pcall(function()
+        rblxpmFolder = ServerStorage:FindFirstChild("RBLXPM")
+    end)
+    if rblxpmFolder then
+        pcall(function()
+            libsFolder = rblxpmFolder:FindFirstChild("Libs")
+        end)
+        if libsFolder then
+
+        else
+            libsFolder = Instance.new("Folder")
+            libsFolder.Name = "Libs"
+            libsFolder.Parent = rblxpmFolder
+        end
+    else
+        rblxpmFolder = Instance.new("Folder")
+        rblxpmFolder.Name = "RBLXPM"
+        rblxpmFolder.Parent = ServerStorage
+
+        libsFolder = Instance.new("Folder")
+        libsFolder.Name = "Libs"
+        libsFolder.Parent = rblxpmFolder
+    end
+end
+
+--End init
+
 
 --example table for packages [testing only]
 
@@ -68,10 +125,6 @@ local template =
 }
 
 --end
-
-function rblxpm:init()
-    
-end
 
 function rblxpm:updatePackageIndex()
     local data
