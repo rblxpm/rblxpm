@@ -188,10 +188,10 @@ function rblxpm:import(ref)
         --RBLXPM instance import
         local cached
         if ref:IsA("ModuleScript") then
-             if isCached(ref) then
-
+             if isCached('Instance_' .. ref.Name) then
+                return importModuleFromCache("Instance_" .. ref)
              else
-
+                cacheModule(ref, "Instance_" .. ref.Name)
              end
         else
             local mainModule
@@ -199,8 +199,10 @@ function rblxpm:import(ref)
                 mainModule = ref:FindFirstChildWhichIsA("ModuleScript")
             end)
             if mainModule then
-                if isCached(mainModule) then
+                if isCached("Instance_" .. mainModule.Name) then
+                    return importModuleFromCache("Instance_" .. mainModule.Name)
                 else
+                    cacheModule(mainModule, "Instance_" .. mainModule.Name)
                 end
             else
                 warn("[RBLXPM] The passed instance is not a module script, or does not contain a main module.")
