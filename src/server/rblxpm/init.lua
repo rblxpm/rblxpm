@@ -174,7 +174,7 @@ function rblxpm:import(ref)
         --RBLXPM instance import
         local cached
         pcall(function()
-            cached = cacheFolder:FindFirstChild('Instance_')
+            cached = cacheFolder:FindFirstChild('Instance_' .. ref.Name)
         end)
         if cached then
             
