@@ -108,13 +108,79 @@ function rblxpm:updatePackageIndex()
     end
 end
 
+function importModuleFromCache(ref)
+    local imported
+    pcall(function()
+        imported = cacheFolder:FindFirstChild(ref)
+    end)
+    if not imported:IsA("ModuleScript") then
+        warn("[RBLXPM] Module is not a ModuleScript.")
+        return nil
+    end
+    if imported then
+        return require(imported)
+    else
+        warn("[RBLXPM] Module not found.")
+    end
+end
+
 function rblxpm:import(ref)
    if typeof(ref) == 'string' then
         --RBLXPM name import
+        --allows you to import something by name from the package index, or manually import something in the cache folder.
    elseif typeof(ref) == 'number' then
         --RBLXPM roblox id import
+        local cached
+        pcall(function()
+            cached = cacheFolder:FindFirstChild('Id_' .. ref) 
+        end)
+        if cached then
+            --Id is cached
+            return importModuleFromCache('Id_' .. ref)
+        else
+            --Id isn't cached
+            local insertedAsset
+            pcall(function()
+                insertedAsset = InsertService:LoadAsset(ref)
+            end)
+            if insertedAsset then
+                local clonedModule
+                if insertedAsset:IsA("ModuleScript") then
+                    clonedModule = insertedAsset:Clone()
+                    clonedModule.Name = "Id_" .. ref
+                    clonedModule.Parent = cacheFolder
+                    return importModuleFromCache('Id_' .. ref)
+                else
+                    local mainModule
+                    pcall(function()
+                        mainModule = insertedAsset:FindFirstChildWhichIsA("ModuleScript")
+                    end)
+                    if mainModule then
+                        clonedModule = mainModule:Clone()
+                        clonedModule.Name = "Id_" .. ref
+                        clonedModule.Parent = cacheFolder
+                        return importModuleFromCache('Id_' .. ref)
+                    else
+                        --Nothing found
+                        warn("[RBLXPM] The requested asset is not a module, or it does not contain a main module.")
+                    end
+                end
+            else
+                --Failed to import
+                warn("[RBLXPM] Failed to load Roblox asset " .. ref .. ".")
+            end
+        end
    elseif typeof(ref) == 'Instance'then
         --RBLXPM instance import
+        local cached
+        pcall(function()
+            cached = cacheFolder:FindFirstChild('Instance_')
+        end)
+        if cached then
+            
+        else
+
+        end
    else
        warn("[RBLXPM] The passed reference couldn't be imported.") 
        return nil 
