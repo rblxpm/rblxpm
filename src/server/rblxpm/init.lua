@@ -124,6 +124,20 @@ function importModuleFromCache(ref)
     end
 end
 
+function isCached(ref)
+    if cacheFolder:FindFirstChild(ref) then
+        return true
+    else
+        return false
+    end
+end
+
+function cacheModule(module, ref)
+    local clonedModule = module:Clone()
+    clonedModule.Name = ref
+    clonedModule.Parent = cacheFolder
+end
+
 function rblxpm:import(ref)
    if typeof(ref) == 'string' then
         --RBLXPM name import
@@ -173,13 +187,24 @@ function rblxpm:import(ref)
    elseif typeof(ref) == 'Instance'then
         --RBLXPM instance import
         local cached
-        pcall(function()
-            cached = cacheFolder:FindFirstChild('Instance_' .. ref.Name)
-        end)
-        if cached then
-            
-        else
+        if ref:IsA("ModuleScript") then
+             if isCached(ref) then
 
+             else
+
+             end
+        else
+            local mainModule
+            pcall(function()
+                mainModule = ref:FindFirstChildWhichIsA("ModuleScript")
+            end)
+            if mainModule then
+                if isCached(mainModule) then
+                else
+                end
+            else
+                warn("[RBLXPM] The passed instance is not a module script, or does not contain a main module.")
+            end
         end
    else
        warn("[RBLXPM] The passed reference couldn't be imported.") 
