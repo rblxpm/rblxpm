@@ -1,41 +1,11 @@
 --[[
-    Roblox Package Manager
-    by the rblxpm team
-    
-    contributors:
-    windingtheropes
-    
-    RBLXPM is created to be a reliable, powerful and easy to use library to import modules. The only time you should use require in a full usage scenario is importing the module. 
-    The remainder of importing can be done through RBLXPM's import function, which does everything that the require function does, and more.
-    
-    What RBLXPM does
-    
-    RBLXPM uses the require function to return modules, but the process in the middle is considerably different. RBLXPM works by using cached modules, which can either be loaded in a central script, or just cached as code is run.
-    After a module is cached, using the import function will import the cached module.
-    
-    Benefits
-    
-    The main benefit of using RBLXPM is cached modules. This allows for a reliable connection between scripts. With RBLXPM, you can easily share information between scripts using modules, on runtime.
-    
-    In order for this to work, the RBLXPM folder must not be modified
+    2021 The RBLXPM Authors
+    Contributors:
+    WindingTheRopes
 
-    For reasons of security, you are more than welcome to investigate it, but it isn't recommended to modify it, as this would most likely break a section of RBLXPM.
-
-    Functions:
-
-    rblxpm:import()
-
-    Used to import any module in 3 different methods:
-    by ID
-    by Instance (import a ModuleScript from ServerStorage)
-    by Reference (a name used to identify the module)
-    
-    Getting Started
-
-    Getting started with RBLXPM is quite easy, all you need is one module! This module must be imported into a place like ReplicatedStorage or ServerStorage. From there, you can require the module, and start importing modules!
+    Documentation:
 
 ]]
-
 local rblxpm = {}
 
 --Services
@@ -134,40 +104,50 @@ function isCached(ref)
     end
 end
 
+function cacheModule(module, ref, clone)
+    local moduleCacheId
+    moduleCacheId = math.random(1, 65535)
+    if cacheFolder:FindFirstChild(tostring(moduleCacheId)) then
+        cacheModule(module, ref, clone)
+    else
+        local moduleCacheFolder = Instance.new("Folder")
+        moduleCacheFolder.Name = tostring(moduleCacheId)
+        moduleCacheFolder.Parent = cacheFolder
 
-function randomsequence(length)
-    local alpha = '1bcdefghijklmnopqrstuvwxyz1234567890'
-    local res = ''
-    for i=1, length do
-        local random = math.random(1, string.len(alpha))
-        res = res .. string.sub(alpha, random, random)
+        if clone == false or clone == nil then
+            module.Parent = moduleCacheFolder
+        elseif clone == true then
+            module:Clone().Parent = moduleCacheFolder
+        else
+        end
     end
-    print(res)
-    return res
 end
 
-function cacheModule(module, ref)
-    local clonedModule = module:Clone()
-    clonedModule.Name = ref
-    clonedModule.Parent = cacheFolder
-end
-
-function rblxpm:import(ref)
+function rblxpm:import(ref, clone)
    --Update the package index before potentially using it 
    rblxpm:updatePackageIndex()
 
    --Check what type of import it is and handle it accordingly
    if typeof(ref) == 'string' then
         --Import a module by name
-
+        
    elseif typeof(ref) == 'number' then
         --Import module by Roblox Id
         
 
    elseif typeof(ref) == 'Instance' then
         --Directly import a modulescript
+        --Deletes the original modulescript on runtime, this can be cancelled by passing opt true
+        
         if ref:IsA("ModuleScript") then
+            if clone == false or clone == nil then
+                --Move the modulescript
 
+            elseif clone == true then
+                --Clone the modulescript
+            else
+                
+            end
         else
             warn("[RBLXPM] The passed instance is not a module script.")
         end
