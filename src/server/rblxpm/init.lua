@@ -101,7 +101,8 @@ function rblxpm:updatePackageIndex()
 		data = HttpService:JSONDecode(response)
 	end)
     if data then
-        
+        print("[RBLXPM] Package cache updated.")
+        packageIndex = data
     else
         warn("[RBLXPM] There was an error gettting or JSON Decoding the Package Index. Retrying in 5 seconds.")
         wait(5)
@@ -133,6 +134,18 @@ function isCached(ref)
     end
 end
 
+
+function randomsequence(length)
+    local alpha = '1bcdefghijklmnopqrstuvwxyz1234567890'
+    local res = ''
+    for i=1, length do
+        local random = math.random(1, string.len(alpha))
+        res = res .. string.sub(alpha, random, random)
+    end
+    print(res)
+    return res
+end
+
 function cacheModule(module, ref)
     local clonedModule = module:Clone()
     clonedModule.Name = ref
@@ -140,76 +153,27 @@ function cacheModule(module, ref)
 end
 
 function rblxpm:import(ref)
+   --Update the package index before potentially using it 
+   rblxpm:updatePackageIndex()
+
+   --Check what type of import it is and handle it accordingly
    if typeof(ref) == 'string' then
-        --RBLXPM name import
-        --allows you to import something by name from the package index, or manually import something in the cache folder.
+        --Import a module by name
+
    elseif typeof(ref) == 'number' then
-        --RBLXPM roblox id import
-        local cached
-        pcall(function()
-            cached = cacheFolder:FindFirstChild('Id_' .. ref) 
-        end)
-        if cached then
-            --Id is cached
-            return importModuleFromCache('Id_' .. ref)
-        else
-            --Id isn't cached
-            local insertedAsset
-            pcall(function()
-                insertedAsset = InsertService:LoadAsset(ref)
-            end)
-            if insertedAsset then
-                local clonedModule
-                if insertedAsset:IsA("ModuleScript") then
-                    clonedModule = insertedAsset:Clone()
-                    clonedModule.Name = "Id_" .. ref
-                    clonedModule.Parent = cacheFolder
-                    return importModuleFromCache('Id_' .. ref)
-                else
-                    local mainModule
-                    pcall(function()
-                        mainModule = insertedAsset:FindFirstChildWhichIsA("ModuleScript")
-                    end)
-                    if mainModule then
-                        clonedModule = mainModule:Clone()
-                        clonedModule.Name = "Id_" .. ref
-                        clonedModule.Parent = cacheFolder
-                        return importModuleFromCache('Id_' .. ref)
-                    else
-                        --Nothing found
-                        warn("[RBLXPM] The requested asset is not a module, or it does not contain a main module.")
-                    end
-                end
-            else
-                --Failed to import
-                warn("[RBLXPM] Failed to load Roblox asset " .. ref .. ".")
-            end
-        end
-   elseif typeof(ref) == 'Instance'then
-        --RBLXPM instance import
-        local cached
+        --Import module by Roblox Id
+        
+
+   elseif typeof(ref) == 'Instance' then
+        --Directly import a modulescript
         if ref:IsA("ModuleScript") then
-             if isCached('Instance_' .. ref.Name) then
-                return importModuleFromCache("Instance_" .. ref)
-             else
-                cacheModule(ref, "Instance_" .. ref.Name)
-             end
+
         else
-            local mainModule
-            pcall(function()
-                mainModule = ref:FindFirstChildWhichIsA("ModuleScript")
-            end)
-            if mainModule then
-                if isCached("Instance_" .. mainModule.Name) then
-                    return importModuleFromCache("Instance_" .. mainModule.Name)
-                else
-                    cacheModule(mainModule, "Instance_" .. mainModule.Name)
-                end
-            else
-                warn("[RBLXPM] The passed instance is not a module script, or does not contain a main module.")
-            end
+            warn("[RBLXPM] The passed instance is not a module script.")
         end
+       
    else
+
        warn("[RBLXPM] The passed reference couldn't be imported.") 
        return nil 
    end 
